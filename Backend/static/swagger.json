@@ -1,0 +1,54 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Flask JWT API",
+        "description": "JWT bilan autentifikatsiya qilinadigan Flask API",
+        "version": "1.0.0"
+    },
+    "host": "127.0.0.1:5000",
+    "schemes": ["http"],
+    "paths": {
+        "/api/v1/login": {
+            "post": {
+                "summary": "Login qilish",
+                "description": "Foydalanuvchi autentifikatsiya qilish uchun API",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "username": {"type": "string"},
+                                "password": {"type": "string"}
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {"description": "JWT token"},
+                    "401": {"description": "Noto‘g‘ri login yoki parol"}
+                }
+            }
+        },
+        "/api/v1/protected": {
+            "get": {
+                "summary": "Himoyalangan API",
+                "description": "Token bilan kiriladigan API",
+                "security": [{"Bearer": []}],
+                "responses": {
+                    "200": {"description": "Foydalanuvchi ma‘lumotlari"}
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer {JWT_TOKEN} ko‘rinishida yuboring"
+        }
+    }
+}

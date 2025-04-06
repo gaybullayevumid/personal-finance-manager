@@ -1,54 +1,82 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "title": "Flask JWT API",
-        "description": "JWT bilan autentifikatsiya qilinadigan Flask API",
-        "version": "1.0.0"
-    },
-    "host": "127.0.0.1:5000",
-    "schemes": ["http"],
-    "paths": {
-        "/api/v1/login": {
-            "post": {
-                "summary": "Login qilish",
-                "description": "Foydalanuvchi autentifikatsiya qilish uchun API",
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "username": {"type": "string"},
-                                "password": {"type": "string"}
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {"description": "JWT token"},
-                    "401": {"description": "Noto‘g‘ri login yoki parol"}
-                }
+  "swagger": "2.0",
+  "info": {
+    "title": "Personal Finance Manager API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "summary": "Register a new user",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
-        },
-        "/api/v1/protected": {
-            "get": {
-                "summary": "Himoyalangan API",
-                "description": "Token bilan kiriladigan API",
-                "security": [{"Bearer": []}],
-                "responses": {
-                    "200": {"description": "Foydalanuvchi ma‘lumotlari"}
-                }
+          },
+          {
+            "name": "email",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Registration successful"
+          },
+          "400": {
+            "description": "Bad request"
+          }
         }
+      }
     },
-    "securityDefinitions": {
-        "Bearer": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header",
-            "description": "Bearer {JWT_TOKEN} ko‘rinishida yuboring"
+    "/api/auth/login": {
+      "post": {
+        "summary": "Login for existing user",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login successful"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
         }
+      }
     }
+  }
 }
